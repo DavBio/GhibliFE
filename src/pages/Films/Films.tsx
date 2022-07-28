@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Header, FilmCard,  PaginationFooter } from '../../components';
+import { Header, FilmCard, PaginationFooter } from '../../components';
 import { apiURL } from '../../constants/apiUrl';
 import { Film } from '../../types/film';
 import { PaginationParams } from '../../types/pagination';
@@ -35,7 +35,9 @@ export const Films = () => {
       }
 
       setLoading(false);
-      setUpdate(false);
+      if (update) {
+        setUpdate(false);
+      }
     });
   }, [params.page, update]);
 
@@ -51,10 +53,14 @@ export const Films = () => {
   };
   return (
     <Wrapper>
-      <Header />
+      <Header>
+        <PopulateDB onClick={() => handlePopulateDB()}>
+          Refresh Database
+        </PopulateDB>
+      </Header>
       {loading && <LoadingDiv>...Loading</LoadingDiv>}
       <Content>
-        {filmList.length > 0 ? (
+        {filmList.length > 0 &&
           filmList.map((film) => {
             return (
               <FilmCard
@@ -63,10 +69,7 @@ export const Films = () => {
                 film={film}
               />
             );
-          })
-        ) : (
-          <PopulateDB onClick={() => handlePopulateDB()}>Atualizar</PopulateDB>
-        )}
+          })}
       </Content>
       <PaginationFooter
         pageCount={paginationParams.totalPages}
