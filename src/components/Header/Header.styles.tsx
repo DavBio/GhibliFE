@@ -6,4 +6,6 @@ export const Container = styled.div`
   box-shadow: 1px -10px 27px 1px #000;
   padding: 1rem 0 0 1rem;
   background: antiquewhite;
+  display: flex;
+  justify-content: space-between;
 `;
