@@ -1,12 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import {
-  render,
-  fireEvent,
-  screen,
-} from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { Films } from '../Films';
-import { mockedFilmResponse, mockedFilmEmptyResponse } from '../../../utils/mocks/mockedFilmsResponse';
+import {
+  mockedFilmResponse,
+  mockedFilmEmptyResponse,
+} from '../../../utils/mocks/mockedFilmsResponse';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -21,8 +20,7 @@ jest.mock('react-router-dom', () => ({
 describe('Test Handle film click', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    mockedAxios.get
-      .mockResolvedValueOnce(mockedFilmResponse);
+    mockedAxios.get.mockResolvedValueOnce(mockedFilmResponse);
   });
 
   it('should fire axios and navigation', async () => {
@@ -38,13 +36,12 @@ describe('Test Handle film click', () => {
 describe('Show update button', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    mockedAxios.get
-      .mockResolvedValueOnce(mockedFilmEmptyResponse);
+    mockedAxios.get.mockResolvedValueOnce(mockedFilmEmptyResponse);
   });
 
   it('should return empty axios response', async () => {
     render(<Films />);
-    await screen.findByText('Atualizar');
+    await screen.findByText('Refresh Database');
     expect(mockedUsedNavigate).toHaveBeenCalledTimes(0);
     expect(axios.get).toHaveBeenCalledTimes(1);
   });
