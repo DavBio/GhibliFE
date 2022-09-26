@@ -17,7 +17,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockedUsedNavigate,
 }));
 
-describe('Test Handle film click', () => {
+describe('Films.tsx', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     mockedAxios.get.mockResolvedValueOnce(mockedFilmResponse);
@@ -37,12 +37,20 @@ describe('Show update button', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     mockedAxios.get.mockResolvedValueOnce(mockedFilmEmptyResponse);
+    mockedAxios.post.mockResolvedValueOnce(mockedFilmEmptyResponse)
+    mockedAxios.get.mockResolvedValueOnce(mockedFilmResponse);;
   });
 
-  it('should return empty axios response', async () => {
+  it('should call axios 2 times', async () => {
     render(<Films />);
-    await screen.findByText('Refresh Database');
+   const refreshButton = await screen.findByText('Refresh Database');
+    fireEvent.click(refreshButton);
     expect(mockedUsedNavigate).toHaveBeenCalledTimes(0);
     expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(axios.post).toHaveBeenCalledTimes(1);
+
+    const firstFilmCard = await screen.findByText('Only Yesterday');
+    expect(axios.get).toHaveBeenCalledTimes(2);
+    expect(firstFilmCard).toBeInTheDocument();
   });
 });
