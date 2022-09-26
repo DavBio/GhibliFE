@@ -8,7 +8,7 @@ import {
 } from './PaginationFooter.styles';
 import { PaginationFooterProps } from './types';
 
-export const PaginationFooter: React.FC<PaginationFooterProps>  = ({
+export const PaginationFooter: React.FC<PaginationFooterProps> = ({
   pageCount,
   current,
   hasNext,
@@ -20,19 +20,31 @@ export const PaginationFooter: React.FC<PaginationFooterProps>  = ({
     <Container>
       {hasPrevious && (
         <Arrow position={'left'} onClick={() => navigate(`/${current - 1}`)}>
-          <img src="/icons/ios-arrow-back-logo-icon-png-svg.png" alt='previous page' />
+          <img
+            src="/icons/ios-arrow-back-logo-icon-png-svg.png"
+            alt="previous page"
+          />
         </Arrow>
       )}
       <NumberDiv>
         {arr.map((n) => {
           return (
-            <NumberButton onClick={() => navigate(`/${n}`)}>{n}</NumberButton>
+            <NumberButton key={n} onClick={() => navigate(`/${n}`)}>
+              {n}
+            </NumberButton>
           );
         })}
       </NumberDiv>
       {hasNext && (
-        <Arrow position={'right'} onClick={() => navigate(`/${current + 1}`)}>
-          <img src="/icons/ios-arrow-back-logo-icon-png-svg.png" alt='next page' />
+        <Arrow
+          data-testid="PaginationFooter-nextButton"
+          position={'right'}
+          onClick={() => navigate(`/${current + 1}`)}
+        >
+          <img
+            src="/icons/ios-arrow-back-logo-icon-png-svg.png"
+            alt="next page"
+          />
         </Arrow>
       )}
     </Container>

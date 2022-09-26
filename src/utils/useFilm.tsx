@@ -17,15 +17,19 @@ export const useFilm = (filmId: string | undefined) => {
 
   React.useEffect(() => {
     setLoading(true);
-    axios
-      .get(`https://ghibli-be.herokuapp.com/film/${filmId}`)
-      .then((response) => {
-        if (response.data.data.film) {
-          setFilm(response.data.data.film);
-        }
-        setLoading(false);
-      });
+
+    const fetchData = async () => {
+      const response = await axios.get(
+        `https://ghibli-be.herokuapp.com/film/${filmId}`
+      );
+      if (response.data.data.film) {
+        setFilm(response.data.data.film);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
   }, [filmId]);
 
-  return {loading, film};
+  return { loading, film };
 };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Header, FilmCard,  PaginationFooter } from '../../components';
+import { Header, FilmCard, PaginationFooter } from '../../components';
 import { apiURL } from '../../constants/apiUrl';
 import { Film } from '../../types/film';
 import { PaginationParams } from '../../types/pagination';
@@ -25,7 +25,8 @@ export const Films = () => {
     });
 
   React.useEffect(() => {
-    axios.get(`${apiURL}?page=${params.page || 1}`).then((response) => {
+    const fetchData = async () => {
+      const response = await axios.get(`${apiURL}?page=${params.page || 1}`);
       if (response.data.data.films) {
         setFilmList(response.data.data.films);
       }
@@ -36,7 +37,9 @@ export const Films = () => {
 
       setLoading(false);
       setUpdate(false);
-    });
+    };
+
+    fetchData().catch(error => console.log(error))
   }, [params.page, update]);
 
   const handleFilmClick = (filmId: string) => {
@@ -52,7 +55,9 @@ export const Films = () => {
   return (
     <Wrapper>
       <Header />
-      {loading && <LoadingDiv>...Loading</LoadingDiv>}
+      {loading && (
+        <LoadingDiv data-testid="Films=LoadingDiv">...Loading</LoadingDiv>
+      )}
       <Content>
         {filmList.length > 0 ? (
           filmList.map((film) => {

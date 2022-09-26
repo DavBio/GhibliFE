@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Header } from '../../components';
@@ -30,7 +29,7 @@ export const FilmPage = () => {
           Back
         </BackButton>
         {loading && <LoadingDiv>...Loading</LoadingDiv>}
-        <Title>{film.title} </Title>
+        <Title data-testid="FilmPage-Title">{film.title} </Title>
         <ImageDiv>
           {!loading && (
             <img src={film.movie_banner} alt={`${film.title} movie banner`} />
