@@ -1,8 +1,7 @@
-import axios from 'axios';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Header } from '../../components';
-import { Film } from '../../types/film';
+import { useFilm } from '../../utils/useFilm';
 import {
   Description,
   ImageDiv,
@@ -16,29 +15,7 @@ import {
 export const FilmPage = () => {
   let params = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [film, setFilm] = React.useState<Film>({
-    _id: '',
-    title: '',
-    original_title: '',
-    movie_banner: '',
-    description: '',
-    director: '',
-    producer: '',
-    release_date: '',
-  });
-
-  React.useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`https://ghibli-be.herokuapp.com/film/${params.filmId}`)
-      .then((response) => {
-        if (response.data.data.film) {
-          setFilm(response.data.data.film);
-        }
-        setLoading(false);
-      });
-  }, [params.filmId]);
+  const { loading, film } = useFilm(params.filmId);
 
   return (
     <Wrapper>
@@ -52,7 +29,7 @@ export const FilmPage = () => {
           Back
         </BackButton>
         {loading && <LoadingDiv>...Loading</LoadingDiv>}
-        <Title>{film.title} </Title>
+        <Title data-testid="FilmPage-Title">{film.title} </Title>
         <ImageDiv>
           {!loading && (
             <img src={film.movie_banner} alt={`${film.title} movie banner`} />

@@ -25,7 +25,8 @@ export const Films = () => {
     });
 
   React.useEffect(() => {
-    axios.get(`${apiURL}?page=${params.page || 1}`).then((response) => {
+    const fetchData = async () => {
+      const response = await axios.get(`${apiURL}?page=${params.page || 1}`);
       if (response.data.data.films) {
         setFilmList(response.data.data.films);
       }
@@ -38,7 +39,10 @@ export const Films = () => {
       if (update) {
         setUpdate(false);
       }
-    });
+    };
+
+    fetchData().catch(error => console.log(error));
+
   }, [params.page, update]);
 
   const handleFilmClick = (filmId: string) => {
