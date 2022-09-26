@@ -36,10 +36,13 @@ export const Films = () => {
       }
 
       setLoading(false);
-      setUpdate(false);
+      if (update) {
+        setUpdate(false);
+      }
     };
 
-    fetchData().catch(error => console.log(error))
+    fetchData().catch(error => console.log(error));
+
   }, [params.page, update]);
 
   const handleFilmClick = (filmId: string) => {
@@ -54,12 +57,14 @@ export const Films = () => {
   };
   return (
     <Wrapper>
-      <Header />
-      {loading && (
-        <LoadingDiv data-testid="Films=LoadingDiv">...Loading</LoadingDiv>
-      )}
+      <Header>
+        <PopulateDB onClick={() => handlePopulateDB()}>
+          Refresh Database
+        </PopulateDB>
+      </Header>
+      {loading && <LoadingDiv>...Loading</LoadingDiv>}
       <Content>
-        {filmList.length > 0 ? (
+        {filmList.length > 0 &&
           filmList.map((film) => {
             return (
               <FilmCard
@@ -68,10 +73,7 @@ export const Films = () => {
                 film={film}
               />
             );
-          })
-        ) : (
-          <PopulateDB onClick={() => handlePopulateDB()}>Atualizar</PopulateDB>
-        )}
+          })}
       </Content>
       <PaginationFooter
         pageCount={paginationParams.totalPages}
